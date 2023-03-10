@@ -62,7 +62,7 @@
         var prevX, prevY;      // previous mouse position during a drag.
         
         var colorChoice;  // Integer code for the selected color in the "colorChoide"
-                          // popup menu.  The value is assigned in doMouseDown.
+        var shapeChoice;                  // popup menu.  The value is assigned in doMouseDown.
         
         function doMouseDown(evt) {
                 // This function is called when the user presses a button on the mouse.
@@ -85,6 +85,7 @@
                 document.addEventListener("mouseup", doMouseUp, false);
             }
             colorChoice = Number(document.getElementById("colorChoice").value);
+            shapeChoice = Number(document.getElementById("shapeChoice").value);
             // TODO: Anything else to do when mouse is first pressed?
         }
         
@@ -118,18 +119,29 @@
                 graphics.fillStyle = "blue";
             }
 
-            //Zmiana rysowanego kształtu 
-            // korzystając ze wzoru do poprzedniego zadania
-            // x = R*cos(2PI/n), y = R*sin(2PI/n), n = 11
-            graphics.beginPath();
-            graphics.moveTo(x,y);
-
-            for(var i = 0; i < 20; i++)
+            if(shapeChoice == 0)
             {
-                graphics.lineTo(x + 25*Math.cos(2*i*Math.PI/11), y + 25*Math.sin(2*i*Math.PI/11)); 
+                graphics.beginPath();
+                graphics.fillCircle(x,y,20);
+                graphics.strokeCircle(x,y,20);
+                graphics.closePath();
             }
-            graphics.fill();
-            graphics.closePath();
+            else
+            {
+                //Zmiana rysowanego kształtu 
+                // korzystając ze wzoru do poprzedniego zadania
+                // x = R*cos(2PI/n), y = R*sin(2PI/n), n = 11
+                graphics.beginPath();
+                graphics.moveTo(x,y);
+
+                for(var i = 0; i < 15; i++)
+                {
+                    graphics.lineTo(x + 25*Math.cos(2*i*Math.PI/11), y + 25*Math.sin(2*i*Math.PI/11)); 
+                }
+                graphics.stroke();
+                graphics.fill();
+                graphics.closePath();
+            }
 
 
             /*------------------------------------------------------------*/
@@ -259,9 +271,9 @@
         graphics.fillRect(0,0,canvas.width,canvas.height);
     }
     
-    function Clear_Canvas()
+    function Clear()
     {
-        graphics.clearRect(0,0,800,600);
+        graphics.clearRect(0,0,canvas.width,canvas.height);
     }
 
 </script>
@@ -275,13 +287,21 @@
 <p>JavaScript is required to use this page.</p>
 </noscript>
 
+<p><b>Figura:</b>
+    <select id="shapeChoice">
+        <option value="0">Circle</option>
+        <option value="1">Polygon</option>
+    </select>
 <p><b>Color:</b>
     <select id="colorChoice">
         <option value="0">Random</option>
         <option value="1">Red</option>
         <option value="2">Green</option>
         <option value="3">Blue</option>
+        <option value="4">Pink</option>
     </select>
+    <button onclick="Clear()">Clear screen</button>
+</p>
 </p>
 
 <div id="canvasholder">
